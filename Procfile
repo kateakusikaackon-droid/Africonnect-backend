@@ -1,0 +1,1 @@
+web: cd africonnect && gunicorn config.wsgi:application
