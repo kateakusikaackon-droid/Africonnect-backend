@@ -112,6 +112,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'marketplace',
+    'rfqs',
 ]
 
 REST_FRAMEWORK = {

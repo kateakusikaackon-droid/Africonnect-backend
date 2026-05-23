@@ -4,9 +4,9 @@ from rest_framework.permissions import (
     IsAuthenticated,
     AllowAny
 )
-
+from rest_framework.generics import GenericAPIView
 from common.swagger import SwaggerSafeMixin
-
+from .serializers import HealthCheckSerializer
 
 
 from rest_framework.views import APIView
@@ -305,12 +305,14 @@ class BuyerDashboardView(APIView):
 
 
 
-class HealthCheckView(APIView):
-    authentication_classes = []
-    permission_classes = []
-
+class HealthCheckView(GenericAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = HealthCheckSerializer
     def get(self, request):
-        return Response({"status": "ok"})
+        return Response({
+            "status": "ok",
+            "message": "API is running"
+        })
 
 
 

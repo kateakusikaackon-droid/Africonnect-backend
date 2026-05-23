@@ -129,4 +129,10 @@ class BuyerDashboardSerializer(serializers.Serializer):
         serializers.CharField()
     )
     
-    
+
+
+
+
+class HealthCheckSerializer(serializers.Serializer):
+    status = serializers.CharField()
+    message = serializers.CharField()

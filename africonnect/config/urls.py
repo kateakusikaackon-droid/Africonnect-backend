@@ -70,9 +70,16 @@ urlpatterns = [
     # =====================================
     path(
     "api/marketplace/",
-    include("marketplace.urls"),
-    ),    
+    include("marketplace.urls")
+    ),
     
+    # =====================================
+    # REQUEST FOR QUOTATION (RFQ)
+    # =====================================
+    path(
+    "api/rfqs/",
+    include("rfqs.urls")
+    ),    
     
     # =====================================
     # JWT
