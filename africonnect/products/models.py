@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from profiles.models import SupplierProfile
+from africonnect.profiles.models import SupplierProfile
 User = settings.AUTH_USER_MODEL
 
 
