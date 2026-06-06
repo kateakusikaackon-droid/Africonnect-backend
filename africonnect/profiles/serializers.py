@@ -1,14 +1,18 @@
 from rest_framework import serializers
 from .models import SupplierProfile
-
+from .models import BuyerProfile
 
 class SupplierProfileSerializer(serializers.ModelSerializer):
 
+    supplier_name = serializers.CharField(
+        source="user.name",
+        read_only=True
+    )
     class Meta:
         model = SupplierProfile
         fields = [
             "id",
-            "user",
+            "supplier_name",
             "business_name",
             "rating",
             "verified",
@@ -22,7 +26,29 @@ class SupplierProfileSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
-        read_only_fields = ["id", "user", "created_at", "updated_at"]
+        read_only_fields = ["id", "created_at", "updated_at"]
         
         
-    
+
+class BuyerProfileSerializer(serializers.ModelSerializer):
+
+    buyer_name = serializers.CharField(
+        source="user.name",
+        read_only=True
+    )
+
+    class Meta:
+        model = BuyerProfile
+        fields = [
+            "id",
+            "buyer_name",
+            "business_name",
+            "phone_number", 
+            "industry", 
+            "company_description", 
+            "address", 
+            "website",
+            "country",
+            "image",
+        ]    
+        read_only_fields = ["id"]

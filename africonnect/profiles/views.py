@@ -7,6 +7,9 @@ from accounts.permissions import IsSupplier
 from .models import SupplierProfile
 from .serializers import SupplierProfileSerializer
 
+from accounts.permissions import IsBuyer
+from .models import BuyerProfile
+from .serializers import BuyerProfileSerializer
 
 class SupplierProfileView(APIView):
 
@@ -71,3 +74,70 @@ class SupplierProfileView(APIView):
         serializer.save()
 
         return Response(serializer.data)
+    
+    
+    
+
+class BuyerProfileView(APIView):
+
+    permission_classes = [
+        IsAuthenticated,
+        IsBuyer
+    ]
+
+    serializer_class = BuyerProfileSerializer
+
+    @extend_schema(
+        responses=BuyerProfileSerializer
+    )
+    def get(self, request):
+
+        try:
+            buyer = request.user.buyer_profile
+
+        except BuyerProfile.DoesNotExist:
+
+            return Response(
+                {
+                    "detail": "Profile not found"
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = self.serializer_class(
+            buyer
+        )
+
+        return Response(serializer.data)
+
+    @extend_schema(
+        request=BuyerProfileSerializer,
+        responses=BuyerProfileSerializer
+    )
+    def patch(self, request):
+
+        try:
+            buyer = request.user.buyer_profile
+
+        except BuyerProfile.DoesNotExist:
+
+            return Response(
+                {
+                    "detail": "Profile not found"
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = self.serializer_class(
+            buyer,
+            data=request.data,
+            partial=True
+        )
+
+        serializer.is_valid(
+            raise_exception=True
+        )
+
+        serializer.save()
+
+        return Response(serializer.data)    

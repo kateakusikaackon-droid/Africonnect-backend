@@ -11,6 +11,7 @@ from .views import (
 
 from profiles.views import (
     SupplierProfileView,
+    BuyerProfileView,
 )
 
 from products.views import (
@@ -97,11 +98,19 @@ urlpatterns = [
     # =====================================
     # BUYER DASHBOARD
     # =====================================
-
+    
+    # DASHBOARD HOME
     path(
         "buyers/dashboard/",
         BuyerDashboardView.as_view(),
         name="buyer-dashboard"
+    ),
+    
+    # BUYERS PROFILE
+    path(
+        "buyers/dashboard/profile/",
+        BuyerProfileView.as_view(),
+        name="buyer-profile"
     ),
     
     path("health/", HealthCheckView.as_view()),

@@ -1,8 +1,13 @@
 # 🌍 AFRICONNECT BACKEND API
 =========================
 
+![Django](https://img.shields.io/badge/Django-4.x-green)
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![DRF](https://img.shields.io/badge/DRF-API-red)
+![Status](https://img.shields.io/badge/status-active-success)
+
 A production-ready Django REST API backend for Africonnect — a B2B platform connecting buyers and suppliers across Africa.  
-Built for scalability, security, and real-time business workflows including authentication, supplier management, and product catalog.
+Built for scalability, security, and real-time business workflows including authentication, supplier management, product catalog, and RFQ processing.
 
 =========================
 # 🧰 🚀 TECH STACK
@@ -98,6 +103,7 @@ cd africonnect && gunicorn config.wsgi:application
 Secure user authentication (JWT)  
 Buyer & supplier dashboards  
 Product management system  
+RFQ (Request for Quote) workflow  
 REST API architecture for frontend integration  
 Scalable backend design for SaaS expansion  
 

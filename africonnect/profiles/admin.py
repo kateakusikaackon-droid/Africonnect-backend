@@ -1,6 +1,12 @@
 from django.contrib import admin
+from .models import SupplierProfile, BuyerProfile
 
-# Register your models here.
-from .models import SupplierProfile
 
-admin.site.register(SupplierProfile)
+@admin.register(SupplierProfile)
+class SupplierProfileAdmin(admin.ModelAdmin):
+    list_display = ("user", "business_name", "country", "verified")
+
+
+@admin.register(BuyerProfile)
+class BuyerProfileAdmin(admin.ModelAdmin):
+    list_display = ("user", "business_name", "country")
