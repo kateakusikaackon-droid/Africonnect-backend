@@ -115,21 +115,7 @@ INSTALLED_APPS = [
     'rfqs',
 ]
 
-REST_FRAMEWORK = {
-    "DEFAULT_FILTER_BACKENDS": [
-        "django_filters.rest_framework.DjangoFilterBackend",
-        "rest_framework.filters.SearchFilter",
-        "rest_framework.filters.OrderingFilter",
-    ]
-}
 
-REST_FRAMEWORK = {
-
-    "DEFAULT_PAGINATION_CLASS":
-        "rest_framework.pagination.LimitOffsetPagination",
-
-    "PAGE_SIZE": 20,
-}
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -216,8 +202,6 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 from datetime import timedelta
 
-
-
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 
@@ -228,7 +212,20 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.LimitOffsetPagination',
+
+    'PAGE_SIZE': 20,
 }
+
+
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
@@ -251,9 +248,17 @@ X_FRAME_OPTIONS = 'DENY'
 
 
 
-CORS_ALLOWED_ORIGINS = [
-    os.getenv("FRONTEND_URL"),
-]
+CORS_ALLOWED_ORIGINS = config(
+    "CORS_ALLOWED_ORIGINS",
+    default=""
+).split(",")
+
+CSRF_TRUSTED_ORIGINS = config(
+    "CSRF_TRUSTED_ORIGINS",
+    default=""
+).split(",")
+
+CORS_ALLOW_CREDENTIALS = True
 
 
 #CORS_ALLOW_ALL_ORIGINS = True
