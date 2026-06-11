@@ -29,8 +29,9 @@ from .serializers import (
 from profiles.models import SupplierProfile
 from products.models import Product
 from products.models import ProductCategory
+from profiles.models import BuyerProfile
 
-
+from common.serializers import CategorySerializer
 
 
 @extend_schema(
@@ -202,11 +203,16 @@ class SupplierDashboardView(
 
         products = supplier.products.all()
 
-        categories = (
-            ProductCategory.objects.filter(
-                products__supplier=supplier
-            ).distinct()
-        )
+        categories_qs = ProductCategory.objects.filter(
+            products__supplier=supplier
+        ).distinct()
+        
+        category_data = CategorySerializer(categories_qs, many=True).data
+        
+        return Response({
+            "categories": category_data
+        })        
+        
 
         # =====================================
         # VERIFICATION PROGRESS

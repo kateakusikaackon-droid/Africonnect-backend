@@ -1,0 +1,1829 @@
+openapi: 3.0.3
+info:
+  title: AFRICONNECT API
+  version: 1.0.0
+  description: Backend API for Africonnect platform
+paths:
+  /api/accounts/buyers/dashboard/:
+    get:
+      operationId: accounts_buyers_dashboard_retrieve
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyerDashboard'
+          description: ''
+  /api/accounts/buyers/dashboard/profile/:
+    get:
+      operationId: accounts_buyers_dashboard_profile_retrieve
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyerProfile'
+          description: ''
+    patch:
+      operationId: accounts_buyers_dashboard_profile_partial_update
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBuyerProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBuyerProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBuyerProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyerProfile'
+          description: ''
+  /api/accounts/buyers/register/:
+    post:
+      operationId: accounts_buyers_register_create
+      description: User registration endpoint (supplier or buyer)
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegister'
+          description: ''
+  /api/accounts/health/:
+    get:
+      operationId: accounts_health_retrieve
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheck'
+          description: ''
+  /api/accounts/login/:
+    post:
+      operationId: accounts_login_create
+      description: Login and return JWT tokens for supplier or buyer
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomToken'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomToken'
+        required: true
+      responses:
+        '200':
+          description: JWT tokens returned
+  /api/accounts/logout/:
+    post:
+      operationId: accounts_logout_create
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Logout'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Logout'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Logout'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Logout'
+          description: ''
+  /api/accounts/suppliers/dashboard/:
+    get:
+      operationId: accounts_suppliers_dashboard_retrieve
+      description: |-
+        Here "supplier" is simply the current
+        SupplierProfile object belonging to
+        the logged-in supplier user.
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierDashboard'
+          description: ''
+  /api/accounts/suppliers/dashboard/categories/:
+    get:
+      operationId: accounts_suppliers_dashboard_categories_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProductCategoryList'
+          description: ''
+  /api/accounts/suppliers/dashboard/products/:
+    get:
+      operationId: accounts_suppliers_dashboard_products_list
+      parameters:
+      - in: query
+        name: category
+        schema:
+          type: integer
+      - in: query
+        name: is_public
+        schema:
+          type: boolean
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProductList'
+          description: ''
+    post:
+      operationId: accounts_suppliers_dashboard_products_create
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+  /api/accounts/suppliers/dashboard/products/{id}/:
+    get:
+      operationId: accounts_suppliers_dashboard_products_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetail'
+          description: ''
+    put:
+      operationId: accounts_suppliers_dashboard_products_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductDetail'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetail'
+          description: ''
+    patch:
+      operationId: accounts_suppliers_dashboard_products_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProductDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProductDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProductDetail'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetail'
+          description: ''
+    delete:
+      operationId: accounts_suppliers_dashboard_products_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/accounts/suppliers/dashboard/profile/:
+    get:
+      operationId: accounts_suppliers_dashboard_profile_retrieve
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierProfile'
+          description: ''
+    patch:
+      operationId: accounts_suppliers_dashboard_profile_partial_update
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSupplierProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSupplierProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSupplierProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierProfile'
+          description: ''
+  /api/accounts/suppliers/register/:
+    post:
+      operationId: accounts_suppliers_register_create
+      description: User registration endpoint (supplier or buyer)
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegister'
+          description: ''
+  /api/marketplace/categories/:
+    get:
+      operationId: marketplace_categories_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - marketplace
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCategoryList'
+          description: ''
+  /api/marketplace/countries/:
+    get:
+      operationId: marketplace_countries_retrieve
+      tags:
+      - marketplace
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountryList'
+          description: ''
+  /api/marketplace/products/:
+    get:
+      operationId: marketplace_products_list
+      parameters:
+      - in: query
+        name: category_id
+        schema:
+          type: integer
+      - in: query
+        name: country
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - marketplace
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMarketplaceProductList'
+          description: ''
+  /api/marketplace/products/{id}/:
+    get:
+      operationId: marketplace_products_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - marketplace
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketplaceProductDetail'
+          description: ''
+  /api/marketplace/suppliers/:
+    get:
+      operationId: marketplace_suppliers_list
+      parameters:
+      - in: query
+        name: country
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: verified
+        schema:
+          type: boolean
+      tags:
+      - marketplace
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMarketplaceSupplierList'
+          description: ''
+  /api/marketplace/suppliers/{id}/:
+    get:
+      operationId: marketplace_suppliers_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - marketplace
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketplaceSupplierDetail'
+          description: ''
+  /api/products/:
+    get:
+      operationId: products_list
+      parameters:
+      - in: query
+        name: category
+        schema:
+          type: integer
+      - in: query
+        name: is_public
+        schema:
+          type: boolean
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProductList'
+          description: ''
+    post:
+      operationId: products_create
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+  /api/products/{id}/:
+    get:
+      operationId: products_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetail'
+          description: ''
+    put:
+      operationId: products_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductDetail'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetail'
+          description: ''
+    patch:
+      operationId: products_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProductDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProductDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProductDetail'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetail'
+          description: ''
+    delete:
+      operationId: products_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/products/categories/:
+    get:
+      operationId: products_categories_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProductCategoryList'
+          description: ''
+  /api/profiles/buyer/:
+    get:
+      operationId: profiles_buyer_retrieve
+      tags:
+      - profiles
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyerProfile'
+          description: ''
+    patch:
+      operationId: profiles_buyer_partial_update
+      tags:
+      - profiles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBuyerProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBuyerProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBuyerProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyerProfile'
+          description: ''
+  /api/profiles/supplier/:
+    get:
+      operationId: profiles_supplier_retrieve
+      tags:
+      - profiles
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierProfile'
+          description: ''
+    patch:
+      operationId: profiles_supplier_partial_update
+      tags:
+      - profiles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSupplierProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSupplierProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSupplierProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierProfile'
+          description: ''
+  /api/rfqs/create/:
+    post:
+      operationId: rfqs_create_create
+      tags:
+      - rfqs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RFQ'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RFQ'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RFQ'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFQ'
+          description: ''
+  /api/rfqs/form/:
+    get:
+      operationId: rfqs_form_retrieve
+      tags:
+      - rfqs
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFQFormConfig'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+components:
+  schemas:
+    BuyerDashboard:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    BuyerProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        buyer_name:
+          type: string
+          readOnly: true
+        business_name:
+          type: string
+          maxLength: 255
+        phone_number:
+          type: string
+          maxLength: 20
+        industry:
+          type: string
+          maxLength: 255
+        company_description:
+          type: string
+        address:
+          type: string
+        website:
+          type: string
+          format: uri
+          maxLength: 200
+        country:
+          type: string
+          maxLength: 100
+        image:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - buyer_name
+      - id
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+      required:
+      - id
+      - name
+    CountryList:
+      type: object
+      properties:
+        countries:
+          type: array
+          items:
+            type: string
+      required:
+      - countries
+    CustomToken:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - password
+    HealthCheck:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+      required:
+      - message
+      - status
+    Logout:
+      type: object
+      properties:
+        refresh:
+          type: string
+          description: Refresh token to blacklist
+      required:
+      - refresh
+    MarketplaceProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        moq:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        country:
+          type: string
+          maxLength: 100
+        image:
+          type: string
+          format: uri
+          nullable: true
+        supplier:
+          allOf:
+          - $ref: '#/components/schemas/MarketplaceSupplier'
+          readOnly: true
+        category:
+          type: string
+          readOnly: true
+      required:
+      - category
+      - country
+      - id
+      - moq
+      - name
+      - price
+      - supplier
+    MarketplaceProductDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        moq:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        country:
+          type: string
+          maxLength: 100
+        image:
+          type: string
+          format: uri
+          nullable: true
+        category:
+          type: integer
+          nullable: true
+        supplier:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        related_products:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarketplaceProduct'
+          readOnly: true
+      required:
+      - country
+      - created_at
+      - id
+      - moq
+      - name
+      - price
+      - related_products
+      - supplier
+    MarketplaceSupplier:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        business_name:
+          type: string
+          maxLength: 255
+        rating:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,1}(?:\.\d{0,2})?$
+        verified:
+          type: boolean
+        completion_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        country:
+          type: string
+          maxLength: 100
+        image:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - id
+    MarketplaceSupplierDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        business_name:
+          type: string
+          maxLength: 255
+        rating:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,1}(?:\.\d{0,2})?$
+        verified:
+          type: boolean
+        completion_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        phone_number:
+          type: string
+          maxLength: 20
+        country:
+          type: string
+          maxLength: 100
+        address:
+          type: string
+        website:
+          type: string
+          format: uri
+          maxLength: 200
+        image:
+          type: string
+          format: uri
+          nullable: true
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarketplaceProduct'
+          readOnly: true
+      required:
+      - id
+      - products
+    PaginatedCategoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    PaginatedMarketplaceProductList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarketplaceProduct'
+    PaginatedMarketplaceSupplierList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarketplaceSupplier'
+    PaginatedProductCategoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+    PaginatedProductList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    PatchedBuyerProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        buyer_name:
+          type: string
+          readOnly: true
+        business_name:
+          type: string
+          maxLength: 255
+        phone_number:
+          type: string
+          maxLength: 20
+        industry:
+          type: string
+          maxLength: 255
+        company_description:
+          type: string
+        address:
+          type: string
+        website:
+          type: string
+          format: uri
+          maxLength: 200
+        country:
+          type: string
+          maxLength: 100
+        image:
+          type: string
+          format: uri
+          nullable: true
+    PatchedProductDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        currency:
+          type: string
+          maxLength: 3
+        unit:
+          type: string
+          maxLength: 20
+        moq:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        country:
+          type: string
+          maxLength: 100
+        city:
+          type: string
+          maxLength: 100
+        image:
+          type: string
+          format: uri
+          nullable: true
+        is_public:
+          type: boolean
+        category:
+          allOf:
+          - $ref: '#/components/schemas/ProductCategory'
+          readOnly: true
+        category_id:
+          type: integer
+          writeOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedSupplierProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        supplier_name:
+          type: string
+          readOnly: true
+        business_name:
+          type: string
+          maxLength: 255
+        rating:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,1}(?:\.\d{0,2})?$
+        verified:
+          type: boolean
+        completion_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        phone_number:
+          type: string
+          maxLength: 20
+        country:
+          type: string
+          maxLength: 100
+        address:
+          type: string
+        website:
+          type: string
+          format: uri
+          maxLength: 200
+        image:
+          type: string
+          format: uri
+          nullable: true
+        is_public:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        currency:
+          type: string
+          maxLength: 3
+        unit:
+          type: string
+          maxLength: 20
+        moq:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        country:
+          type: string
+          maxLength: 100
+        image:
+          type: string
+          format: uri
+          nullable: true
+        is_public:
+          type: boolean
+        category:
+          allOf:
+          - $ref: '#/components/schemas/ProductCategory'
+          readOnly: true
+        category_id:
+          type: integer
+          writeOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - category
+      - category_id
+      - country
+      - created_at
+      - id
+      - moq
+      - name
+      - price
+      - updated_at
+    ProductCategory:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+      required:
+      - id
+      - name
+    ProductCategoryEnum:
+      enum:
+      - Agriculture & Food Raw Materials
+      - Textile & Fibres
+      - Chemicals & Petrochemicals
+      - Minerals, Ores & Metals
+      - Wood, Pulp & Paper
+      - Packaging Materials
+      - Building & Construction Materials
+      type: string
+      description: |-
+        * `Agriculture & Food Raw Materials` - Agriculture & Food Raw Materials
+        * `Textile & Fibres` - Textile & Fibres
+        * `Chemicals & Petrochemicals` - Chemicals & Petrochemicals
+        * `Minerals, Ores & Metals` - Minerals, Ores & Metals
+        * `Wood, Pulp & Paper` - Wood, Pulp & Paper
+        * `Packaging Materials` - Packaging Materials
+        * `Building & Construction Materials` - Building & Construction Materials
+    ProductDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        currency:
+          type: string
+          maxLength: 3
+        unit:
+          type: string
+          maxLength: 20
+        moq:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        country:
+          type: string
+          maxLength: 100
+        city:
+          type: string
+          maxLength: 100
+        image:
+          type: string
+          format: uri
+          nullable: true
+        is_public:
+          type: boolean
+        category:
+          allOf:
+          - $ref: '#/components/schemas/ProductCategory'
+          readOnly: true
+        category_id:
+          type: integer
+          writeOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - category
+      - category_id
+      - city
+      - country
+      - created_at
+      - id
+      - moq
+      - name
+      - price
+      - updated_at
+    RFQ:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        buyer:
+          type: integer
+          readOnly: true
+        product_category:
+          $ref: '#/components/schemas/ProductCategoryEnum'
+        commodity_type:
+          type: string
+          maxLength: 255
+        quantity_required:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        unit:
+          $ref: '#/components/schemas/UnitEnum'
+        delivery_timeline:
+          type: string
+          format: date
+        target_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        specifications:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - buyer
+      - commodity_type
+      - created_at
+      - delivery_timeline
+      - id
+      - product_category
+      - quantity_required
+      - specifications
+    RFQFormConfig:
+      type: object
+      properties:
+        product_categories:
+          type: array
+          items: {}
+        units:
+          type: array
+          items: {}
+      required:
+      - product_categories
+      - units
+    SupplierDashboard:
+      type: object
+      properties:
+        business_name:
+          type: string
+        verified:
+          type: boolean
+        completion_rate:
+          type: integer
+        rating:
+          type: number
+          format: double
+        products_count:
+          type: integer
+        categories_count:
+          type: integer
+        verification_steps_completed:
+          type: integer
+        verification_total_steps:
+          type: integer
+      required:
+      - business_name
+      - categories_count
+      - completion_rate
+      - products_count
+      - rating
+      - verification_steps_completed
+      - verification_total_steps
+      - verified
+    SupplierProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        supplier_name:
+          type: string
+          readOnly: true
+        business_name:
+          type: string
+          maxLength: 255
+        rating:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,1}(?:\.\d{0,2})?$
+        verified:
+          type: boolean
+        completion_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        phone_number:
+          type: string
+          maxLength: 20
+        country:
+          type: string
+          maxLength: 100
+        address:
+          type: string
+        website:
+          type: string
+          format: uri
+          maxLength: 200
+        image:
+          type: string
+          format: uri
+          nullable: true
+        is_public:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - supplier_name
+      - updated_at
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    UnitEnum:
+      enum:
+      - QTY
+      - KG
+      - TON
+      - L
+      type: string
+      description: |-
+        * `QTY` - Quantity
+        * `KG` - Kilograms
+        * `TON` - Tons
+        * `L` - Litres
+    UserRegister:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 120
+        business_name:
+          type: string
+          readOnly: true
+          nullable: true
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - business_name
+      - email
+      - id
+      - name
+      - password
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

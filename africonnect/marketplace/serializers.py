@@ -48,6 +48,7 @@ class MarketplaceProductSerializer(serializers.ModelSerializer):
         model = Product
 
         fields = [
+            "id",
             "name",
             "price",
             "moq",
@@ -110,6 +111,7 @@ class MarketplaceProductDetailSerializer(serializers.ModelSerializer):
         model = Product
 
         fields = [
+            "id",
             "name",
             "description",
             "price",
@@ -146,7 +148,10 @@ class MarketplaceCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductCategory
 
-        fields = ["name"]
+        fields = [
+            "id",
+            "name",
+        ]
 
 
 # =====================================================

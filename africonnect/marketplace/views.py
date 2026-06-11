@@ -24,7 +24,7 @@ from rest_framework.permissions import AllowAny
 
 from .constants import COUNTRIES
 
-
+from common.serializers import CategorySerializer
 
 class MarketplaceProductListView(ListAPIView):
 
@@ -147,7 +147,7 @@ class MarketplaceCategoryListView(ListAPIView):
 
     permission_classes = [AllowAny]
 
-    serializer_class = MarketplaceCategorySerializer
+    serializer_class = CategorySerializer
 
     def get_queryset(self):
 
