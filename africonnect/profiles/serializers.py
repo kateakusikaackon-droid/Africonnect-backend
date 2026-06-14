@@ -1,13 +1,14 @@
 from rest_framework import serializers
 from .models import SupplierProfile
 from .models import BuyerProfile
+from common.serializers import FileOnlyImageField
+
 
 class SupplierProfileSerializer(serializers.ModelSerializer):
 
-    supplier_name = serializers.CharField(
-        source="user.name",
-        read_only=True
-    )
+    supplier_name = serializers.CharField(source="user.name", read_only=True)
+    image = FileOnlyImageField(required=False, allow_null=True)
+
     class Meta:
         model = SupplierProfile
         fields = [
@@ -27,15 +28,12 @@ class SupplierProfileSerializer(serializers.ModelSerializer):
             "updated_at",
         ]
         read_only_fields = ["id", "created_at", "updated_at"]
-        
-        
+
 
 class BuyerProfileSerializer(serializers.ModelSerializer):
 
-    buyer_name = serializers.CharField(
-        source="user.name",
-        read_only=True
-    )
+    buyer_name = serializers.CharField(source="user.name", read_only=True)
+    image = FileOnlyImageField(required=False, allow_null=True)
 
     class Meta:
         model = BuyerProfile
@@ -43,12 +41,12 @@ class BuyerProfileSerializer(serializers.ModelSerializer):
             "id",
             "buyer_name",
             "business_name",
-            "phone_number", 
-            "industry", 
-            "company_description", 
-            "address", 
+            "phone_number",
+            "industry",
+            "company_description",
+            "address",
             "website",
             "country",
             "image",
-        ]    
+        ]
         read_only_fields = ["id"]

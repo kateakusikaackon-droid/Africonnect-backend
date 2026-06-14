@@ -8,18 +8,8 @@ from .views import (
 )
 
 urlpatterns = [
-
     # OPEN RFQ FORM
-    path(
-        "form/",
-        RFQFormConfigView.as_view(),
-        name="rfq-form"
-    ),
-
+    path("form/", RFQFormConfigView.as_view(), name="rfq-form"),
     # SUBMIT RFQ
-    path(
-        "create/",
-        RFQCreateView.as_view(),
-        name="submit-rfq"
-    ),
+    path("create/", RFQCreateView.as_view(), name="submit-rfq"),
 ]

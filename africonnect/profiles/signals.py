@@ -14,12 +14,8 @@ def create_user_profile(sender, instance, created, **kwargs):
 
         if instance.role == "supplier":
 
-            SupplierProfile.objects.create(
-                user=instance
-            )
+            SupplierProfile.objects.create(user=instance)
 
         elif instance.role == "buyer":
 
-            BuyerProfile.objects.create(
-                user=instance
-            )
+            BuyerProfile.objects.create(user=instance)

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
-    PermissionsMixin
+    PermissionsMixin,
 )
 
 
@@ -15,10 +15,7 @@ class UserManager(BaseUserManager):
 
         email = self.normalize_email(email)
 
-        user = self.model(
-            email=email,
-            **extra_fields
-        )
+        user = self.model(email=email, **extra_fields)
 
         user.set_password(password)
 
@@ -38,11 +35,7 @@ class UserManager(BaseUserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser=True")
 
-        return self.create_user(
-            email,
-            password,
-            **extra_fields
-        )
+        return self.create_user(email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -55,36 +48,19 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     id = models.AutoField(primary_key=True)
 
-    email = models.EmailField(
-        unique=True
-    )
+    email = models.EmailField(unique=True)
 
-    name = models.CharField(
-        max_length=120
-    )
+    name = models.CharField(max_length=120)
 
-    business_name = models.CharField(
-        max_length=120,
-        blank=True,
-        null=True
-    )
+    business_name = models.CharField(max_length=120, blank=True, null=True)
 
-    role = models.CharField(
-        max_length=20,
-        choices=ROLE_CHOICES
-    )
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
-    is_active = models.BooleanField(
-        default=True
-    )
+    is_active = models.BooleanField(default=True)
 
-    is_staff = models.BooleanField(
-        default=False
-    )
+    is_staff = models.BooleanField(default=False)
 
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     objects = UserManager()
 

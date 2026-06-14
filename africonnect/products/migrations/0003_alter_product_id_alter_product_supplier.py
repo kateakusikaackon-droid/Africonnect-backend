@@ -7,19 +7,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('products', '0002_product_currency_product_unit'),
-        ('profiles', '0003_supplierprofile_business_name_and_more'),
+        ("products", "0002_product_currency_product_unit"),
+        ("profiles", "0003_supplierprofile_business_name_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='id',
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            model_name="product",
+            name="id",
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='supplier',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='products', to='profiles.supplierprofile'),
+            model_name="product",
+            name="supplier",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="products",
+                to="profiles.supplierprofile",
+            ),
         ),
     ]

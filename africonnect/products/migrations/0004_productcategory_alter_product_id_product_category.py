@@ -7,26 +7,66 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('products', '0003_alter_product_id_alter_product_supplier'),
+        ("products", "0003_alter_product_id_alter_product_supplier"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ProductCategory',
+            name="ProductCategory",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(choices=[('Agriculture & Food Raw Materials', 'Agriculture & Food Raw Materials'), ('Textile & Fibres', 'Textile & Fibres'), ('Chemicals & Petrochemicals', 'Chemicals & Petrochemicals'), ('Minerals, Ores & Metals', 'Minerals, Ores & Metals'), ('Wood, Pulp & Paper', 'Wood, Pulp & Paper'), ('Packaging Materials', 'Packaging Materials'), ('Building & Construction Materials', 'Building & Construction Materials')], max_length=100, unique=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        choices=[
+                            (
+                                "Agriculture & Food Raw Materials",
+                                "Agriculture & Food Raw Materials",
+                            ),
+                            ("Textile & Fibres", "Textile & Fibres"),
+                            (
+                                "Chemicals & Petrochemicals",
+                                "Chemicals & Petrochemicals",
+                            ),
+                            ("Minerals, Ores & Metals", "Minerals, Ores & Metals"),
+                            ("Wood, Pulp & Paper", "Wood, Pulp & Paper"),
+                            ("Packaging Materials", "Packaging Materials"),
+                            (
+                                "Building & Construction Materials",
+                                "Building & Construction Materials",
+                            ),
+                        ],
+                        max_length=100,
+                        unique=True,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.AlterField(
-            model_name='product',
-            name='id',
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            model_name="product",
+            name="id",
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AddField(
-            model_name='product',
-            name='category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='products', to='products.productcategory'),
+            model_name="product",
+            name="category",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="products",
+                to="products.productcategory",
+            ),
         ),
     ]

@@ -8,47 +8,74 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('profiles', '0006_rename_country_region_supplierprofile_country'),
+        ("profiles", "0006_rename_country_region_supplierprofile_country"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='supplierprofile',
-            name='business_name',
+            model_name="supplierprofile",
+            name="business_name",
             field=models.CharField(blank=True, max_length=255),
         ),
         migrations.AlterField(
-            model_name='supplierprofile',
-            name='country',
+            model_name="supplierprofile",
+            name="country",
             field=models.CharField(blank=True, max_length=100),
         ),
         migrations.AlterField(
-            model_name='supplierprofile',
-            name='gender',
-            field=models.CharField(blank=True, choices=[('male', 'Male'), ('female', 'Female'), ('other', 'Other')], max_length=20),
+            model_name="supplierprofile",
+            name="gender",
+            field=models.CharField(
+                blank=True,
+                choices=[("male", "Male"), ("female", "Female"), ("other", "Other")],
+                max_length=20,
+            ),
         ),
         migrations.AlterField(
-            model_name='supplierprofile',
-            name='phone_number',
+            model_name="supplierprofile",
+            name="phone_number",
             field=models.CharField(blank=True, max_length=20),
         ),
         migrations.CreateModel(
-            name='BuyerProfile',
+            name="BuyerProfile",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('business_name', models.CharField(blank=True, max_length=255)),
-                ('gender', models.CharField(blank=True, choices=[('male', 'Male'), ('female', 'Female'), ('other', 'Other')], max_length=20)),
-                ('phone_number', models.CharField(blank=True, max_length=20)),
-                ('country', models.CharField(blank=True, max_length=100)),
-                ('industry', models.CharField(blank=True, max_length=255)),
-                ('company_description', models.TextField(blank=True)),
-                ('address', models.TextField(blank=True)),
-                ('website', models.URLField(blank=True)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='profiles/buyers/')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='buyer_profile', to=settings.AUTH_USER_MODEL)),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("business_name", models.CharField(blank=True, max_length=255)),
+                (
+                    "gender",
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ("male", "Male"),
+                            ("female", "Female"),
+                            ("other", "Other"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                ("phone_number", models.CharField(blank=True, max_length=20)),
+                ("country", models.CharField(blank=True, max_length=100)),
+                ("industry", models.CharField(blank=True, max_length=255)),
+                ("company_description", models.TextField(blank=True)),
+                ("address", models.TextField(blank=True)),
+                ("website", models.URLField(blank=True)),
+                (
+                    "image",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="profiles/buyers/"
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="buyer_profile",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

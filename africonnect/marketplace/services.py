@@ -1,10 +1,11 @@
 from products.models import Product
+
+
 def get_related_products(product, limit=6):
-    
-    products = Product.objects.filter(
-        is_public=True,
-        supplier__is_public=True
-    ).exclude(id=product.id)
+
+    products = Product.objects.filter(is_public=True, supplier__is_public=True).exclude(
+        id=product.id
+    )
 
     scored_products = []
 

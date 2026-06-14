@@ -6,43 +6,37 @@ from .views import (
     MarketplaceSupplierListView,
     MarketplaceSupplierDetailView,
     MarketplaceCategoryListView,
-    CountryListView
+    CountryListView,
 )
 
 urlpatterns = [
-
     path(
         "products/",
         MarketplaceProductListView.as_view(),
         name="marketplace-products",
     ),
-    
     path(
-    "products/<int:id>/",
-    MarketplaceProductDetailView.as_view(),
+        "products/<int:id>/",
+        MarketplaceProductDetailView.as_view(),
     ),
-
     path(
         "suppliers/",
         MarketplaceSupplierListView.as_view(),
         name="marketplace-suppliers",
     ),
-    
     path(
         "suppliers/<int:pk>/",
         MarketplaceSupplierDetailView.as_view(),
-        name="marketplace-supplier-detail"
+        name="marketplace-supplier-detail",
     ),
-
     path(
         "categories/",
         MarketplaceCategoryListView.as_view(),
         name="marketplace-categories",
     ),
-    
     path(
-    "countries/",
-    CountryListView.as_view(),
-    name="marketplace-countries",
-),
+        "countries/",
+        CountryListView.as_view(),
+        name="marketplace-countries",
+    ),
 ]

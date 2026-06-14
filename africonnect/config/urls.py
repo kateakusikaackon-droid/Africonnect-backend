@@ -15,10 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-
 from django.contrib import admin
 from django.urls import path, include
-from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -27,94 +30,47 @@ from rest_framework_simplejwt.views import (
 from django.conf import settings
 from django.conf.urls.static import static
 
-
-
-
 urlpatterns = [
-
     # =====================================
     # ADMIN
     # =====================================
-    path(
-        "admin/",
-        admin.site.urls
-    ),
-
+    path("admin/", admin.site.urls),
     # =====================================
     # AUTH / ACCOUNTS
     # =====================================
-    path(
-        "api/accounts/",
-        include("accounts.urls")
-    ),
-
+    path("api/accounts/", include("accounts.urls")),
     # =====================================
     # PROFILES
     # =====================================
-    path(
-        "api/profiles/",
-        include("profiles.urls")
-    ),
-
+    path("api/profiles/", include("profiles.urls")),
     # =====================================
     # PRODUCTS
     # =====================================
-    path(
-        "api/products/",
-        include("products.urls")
-    ),
-    
-
+    path("api/products/", include("products.urls")),
     # =====================================
     # MARKETPLACE
     # =====================================
-    path(
-    "api/marketplace/",
-    include("marketplace.urls")
-    ),
-    
+    path("api/marketplace/", include("marketplace.urls")),
     # =====================================
     # REQUEST FOR QUOTATION (RFQ)
     # =====================================
-    path(
-    "api/rfqs/",
-    include("rfqs.urls")
-    ),    
-    
+    path("api/rfqs/", include("rfqs.urls")),
     # =====================================
     # JWT
     # =====================================
-    path(
-        "api/token/refresh/",
-        TokenRefreshView.as_view(),
-        name="token_refresh"
-    ),    
-    
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     # =====================================
     # API DOCUMENTATION
     # =====================================
-    path(
-        "api/schema/",
-        SpectacularAPIView.as_view(),
-        name="schema"
-    ),
-
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "api/docs/",
         SpectacularSwaggerView.as_view(url_name="schema"),
-        name="swagger-ui"
+        name="swagger-ui",
     ),
-
-    path(
-        "api/redoc/",
-        SpectacularRedocView.as_view(url_name="schema"),
-        name="redoc"
-    ),
+    path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
 ]
 
 
 if settings.DEBUG:
-    urlpatterns += static(
-        settings.MEDIA_URL,
-        document_root=settings.MEDIA_ROOT
-    )
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

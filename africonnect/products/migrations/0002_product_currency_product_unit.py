@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('products', '0001_initial'),
+        ("products", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='currency',
-            field=models.CharField(default='USD', max_length=3),
+            model_name="product",
+            name="currency",
+            field=models.CharField(default="USD", max_length=3),
         ),
         migrations.AddField(
-            model_name='product',
-            name='unit',
-            field=models.CharField(default='ton', max_length=20),
+            model_name="product",
+            name="unit",
+            field=models.CharField(default="ton", max_length=20),
         ),
     ]

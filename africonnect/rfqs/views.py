@@ -12,35 +12,24 @@ from .serializers import RFQSerializer
 from .serializers import RFQFormConfigSerializer
 
 
-
-class RFQFormConfigView(APIView):
+class RFQFormConfigView(GenericAPIView):
 
     permission_classes = [IsAuthenticated]
     serializer_class = RFQFormConfigSerializer
+
     def get(self, request):
 
         data = {
             "product_categories": [
-                {
-                    "value": category[0],
-                    "label": category[1]
-                }
+                {"value": category[0], "label": category[1]}
                 for category in RFQ.CATEGORY_CHOICES
             ],
-
             "units": [
-                {
-                    "value": unit[0],
-                    "label": unit[1]
-                }
-                for unit in RFQ.UNIT_CHOICES
-            ]
+                {"value": unit[0], "label": unit[1]} for unit in RFQ.UNIT_CHOICES
+            ],
         }
 
         return Response(data)
-    
-    
-    
 
 
 class RFQCreateView(CreateAPIView):
@@ -53,6 +42,4 @@ class RFQCreateView(CreateAPIView):
 
     def perform_create(self, serializer):
 
-        serializer.save(
-            buyer=self.request.user
-        )    
+        serializer.save(buyer=self.request.user)

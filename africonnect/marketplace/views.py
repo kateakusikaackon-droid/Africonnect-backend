@@ -26,6 +26,7 @@ from .constants import COUNTRIES
 
 from common.serializers import CategorySerializer
 
+
 class MarketplaceProductListView(ListAPIView):
 
     permission_classes = [AllowAny]
@@ -42,7 +43,6 @@ class MarketplaceProductListView(ListAPIView):
         "country": ["exact"],
         "category_id": ["exact"],
     }
-    
 
     search_fields = [
         "name",
@@ -54,16 +54,12 @@ class MarketplaceProductListView(ListAPIView):
         "created_at",
     ]
 
-    ordering = [
-        "-created_at"
-    ]
-
+    ordering = ["-created_at"]
 
     def get_queryset(self):
 
         return Product.objects.filter(
-            is_public=True,
-            supplier__is_public=True
+            is_public=True, supplier__is_public=True
         ).select_related(
             "supplier",
             "category",
@@ -81,17 +77,11 @@ class MarketplaceProductDetailView(RetrieveAPIView):
     def get_queryset(self):
 
         return Product.objects.filter(
-            is_public=True,
-            supplier__is_public=True
+            is_public=True, supplier__is_public=True
         ).select_related(
             "supplier",
             "category",
         )
-
-
-
-
-
 
 
 class MarketplaceSupplierListView(ListAPIView):
@@ -106,14 +96,13 @@ class MarketplaceSupplierListView(ListAPIView):
         OrderingFilter,
     ]
 
-    
     filterset_fields = {
         "country": ["exact"],
         "verified": ["exact"],
     }
 
     search_fields = [
-        "business_name",      
+        "business_name",
     ]
 
     ordering_fields = [
@@ -121,27 +110,20 @@ class MarketplaceSupplierListView(ListAPIView):
         "created_at",
     ]
 
-    ordering = [
-        "-rating"
-    ]
+    ordering = ["-rating"]
 
     def get_queryset(self):
 
-        return SupplierProfile.objects.filter(
-            is_public=True
-        )
-        
-        
+        return SupplierProfile.objects.filter(is_public=True)
+
+
 class MarketplaceSupplierDetailView(RetrieveAPIView):
 
     permission_classes = [AllowAny]
     serializer_class = MarketplaceSupplierDetailSerializer
 
-    queryset = SupplierProfile.objects.filter(
-        is_public=True
-    )
+    queryset = SupplierProfile.objects.filter(is_public=True)
 
-        
 
 class MarketplaceCategoryListView(ListAPIView):
 
@@ -151,22 +133,18 @@ class MarketplaceCategoryListView(ListAPIView):
 
     def get_queryset(self):
 
-        return ProductCategory.objects.all()   
-    
-    
-    
-    
-#class CountryListView(APIView):
+        return ProductCategory.objects.all()
 
-    #permission_classes = [AllowAny]
 
-    #def get(self, request):
+# class CountryListView(APIView):
 
-        #return Response({
-            #"countries": COUNTRIES
-        #})    
-    
+# permission_classes = [AllowAny]
 
+# def get(self, request):
+
+# return Response({
+# "countries": COUNTRIES
+# })
 
 
 class CountryListView(GenericAPIView):
@@ -176,8 +154,7 @@ class CountryListView(GenericAPIView):
 
     def get(self, request):
 
-        return Response({
-            "countries": COUNTRIES
-        })         
+        return Response({"countries": COUNTRIES})
+
 
 # Create your views here.

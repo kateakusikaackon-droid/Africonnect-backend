@@ -15,18 +15,76 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='RFQ',
+            name="RFQ",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('product_category', models.CharField(choices=[('Agriculture & Food Raw Materials', 'Agriculture & Food Raw Materials'), ('Textile & Fibres', 'Textile & Fibres'), ('Chemicals & Petrochemicals', 'Chemicals & Petrochemicals'), ('Minerals, Ores & Metals', 'Minerals, Ores & Metals'), ('Wood, Pulp & Paper', 'Wood, Pulp & Paper'), ('Packaging Materials', 'Packaging Materials'), ('Building & Construction Materials', 'Building & Construction Materials')], max_length=100)),
-                ('commodity_type', models.CharField(max_length=255)),
-                ('quantity_required', models.DecimalField(decimal_places=2, max_digits=12)),
-                ('unit', models.CharField(choices=[('QTY', 'Quantity'), ('KG', 'Kilograms'), ('TON', 'Tons'), ('L', 'Litres')], default='QTY', max_length=10)),
-                ('delivery_timeline', models.DateField()),
-                ('target_price', models.DecimalField(blank=True, decimal_places=2, max_digits=12, null=True)),
-                ('specifications', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('buyer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='buyer_rfqs', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "product_category",
+                    models.CharField(
+                        choices=[
+                            (
+                                "Agriculture & Food Raw Materials",
+                                "Agriculture & Food Raw Materials",
+                            ),
+                            ("Textile & Fibres", "Textile & Fibres"),
+                            (
+                                "Chemicals & Petrochemicals",
+                                "Chemicals & Petrochemicals",
+                            ),
+                            ("Minerals, Ores & Metals", "Minerals, Ores & Metals"),
+                            ("Wood, Pulp & Paper", "Wood, Pulp & Paper"),
+                            ("Packaging Materials", "Packaging Materials"),
+                            (
+                                "Building & Construction Materials",
+                                "Building & Construction Materials",
+                            ),
+                        ],
+                        max_length=100,
+                    ),
+                ),
+                ("commodity_type", models.CharField(max_length=255)),
+                (
+                    "quantity_required",
+                    models.DecimalField(decimal_places=2, max_digits=12),
+                ),
+                (
+                    "unit",
+                    models.CharField(
+                        choices=[
+                            ("QTY", "Quantity"),
+                            ("KG", "Kilograms"),
+                            ("TON", "Tons"),
+                            ("L", "Litres"),
+                        ],
+                        default="QTY",
+                        max_length=10,
+                    ),
+                ),
+                ("delivery_timeline", models.DateField()),
+                (
+                    "target_price",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=12, null=True
+                    ),
+                ),
+                ("specifications", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "buyer",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="buyer_rfqs",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

@@ -1,16 +1,16 @@
 from rest_framework.permissions import BasePermission
 
+# class RolePermission(BasePermission):
 
-#class RolePermission(BasePermission):
+# role = None
 
-    #role = None
+# def has_permission(self, request, view):
 
-    #def has_permission(self, request, view):
+# return (
+# request.user.is_authenticated and
+# request.user.role == self.role
+# )
 
-        #return (
-            #request.user.is_authenticated and
-            #request.user.role == self.role
-        #)
 
 class RolePermission(BasePermission):
 
@@ -21,9 +21,7 @@ class RolePermission(BasePermission):
         user = request.user
 
         return (
-            user
-            and user.is_authenticated
-            and getattr(user, "role", None) == self.role
+            user and user.is_authenticated and getattr(user, "role", None) == self.role
         )
 
 
@@ -43,18 +41,14 @@ class IsSupplierOrAdmin(BasePermission):
 
     def has_permission(self, request, view):
 
-        return (
-            request.user.is_authenticated and
-            request.user.role in ["supplier", "admin"]
-        )
+        return request.user.is_authenticated and request.user.role in [
+            "supplier",
+            "admin",
+        ]
 
 
 class IsBuyerOrAdmin(BasePermission):
 
     def has_permission(self, request, view):
 
-        return (
-            request.user.is_authenticated and
-            request.user.role in ["buyer", "admin"]
-        )
-        
+        return request.user.is_authenticated and request.user.role in ["buyer", "admin"]

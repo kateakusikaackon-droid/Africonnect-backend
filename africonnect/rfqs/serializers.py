@@ -8,6 +8,7 @@ class RFQFormConfigSerializer(serializers.Serializer):
     product_categories = serializers.ListField()
     units = serializers.ListField()
 
+
 class RFQSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -29,4 +30,4 @@ class RFQSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "buyer",
             "created_at",
-        ]        
+        ]

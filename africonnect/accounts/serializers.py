@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+
 class UserRegisterSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True)
@@ -17,7 +18,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "password",
         ]
 
-        read_only_fields = ["id","business_name"]
+        read_only_fields = ["id", "business_name"]
 
     # -----------------------------
     # VALIDATION
@@ -34,9 +35,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def validate_password(self, value):
 
         if len(value) < 8:
-            raise serializers.ValidationError(
-                "Password must be at least 8 characters"
-            )
+            raise serializers.ValidationError("Password must be at least 8 characters")
 
         return value
 
@@ -51,9 +50,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         validated_data["role"] = role
 
         return User.objects.create_user(**validated_data)
-    
-    
-    
+
+
 class CustomTokenSerializer(TokenObtainPairSerializer):
     username_field = "email"
 
@@ -70,67 +68,37 @@ class CustomTokenSerializer(TokenObtainPairSerializer):
         }
 
         return data
-    
-    
-    
-    
+
+
 class LogoutSerializer(serializers.Serializer):
 
     refresh = serializers.CharField(
-        required=True,
-        help_text="Refresh token to blacklist"
-    )
-    
-
-
-
-
-class SupplierDashboardSerializer(
-    serializers.Serializer
-):
-
-    business_name = (
-        serializers.CharField()
+        required=True, help_text="Refresh token to blacklist"
     )
 
-    verified = (
-        serializers.BooleanField()
-    )
 
-    completion_rate = (
-        serializers.IntegerField()
-    )
+class SupplierDashboardSerializer(serializers.Serializer):
 
-    rating = (
-        serializers.FloatField()
-    )
+    business_name = serializers.CharField()
 
-    products_count = (
-        serializers.IntegerField()
-    )
+    verified = serializers.BooleanField()
 
-    categories_count = (
-        serializers.IntegerField()
-    )
+    completion_rate = serializers.IntegerField()
 
-    verification_steps_completed = (
-        serializers.IntegerField()
-    )
+    rating = serializers.FloatField()
 
-    verification_total_steps = (
-        serializers.IntegerField()
-    )    
-    
-    
-    
+    products_count = serializers.IntegerField()
+
+    categories_count = serializers.IntegerField()
+
+    verification_steps_completed = serializers.IntegerField()
+
+    verification_total_steps = serializers.IntegerField()
+
+
 class BuyerDashboardSerializer(serializers.Serializer):
 
-    message = (
-        serializers.CharField()
-    )
-    
-
-
+    message = serializers.CharField()
 
 
 class HealthCheckSerializer(serializers.Serializer):

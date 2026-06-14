@@ -8,35 +8,39 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('profiles', '0002_rename_city_supplierprofile_country_region_and_more'),
+        ("profiles", "0002_rename_city_supplierprofile_country_region_and_more"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='supplierprofile',
-            name='business_name',
-            field=models.CharField(default='Unknown Business', max_length=255),
+            model_name="supplierprofile",
+            name="business_name",
+            field=models.CharField(default="Unknown Business", max_length=255),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='supplierprofile',
-            name='completion_rate',
+            model_name="supplierprofile",
+            name="completion_rate",
             field=models.DecimalField(decimal_places=2, default=0.0, max_digits=5),
         ),
         migrations.AddField(
-            model_name='supplierprofile',
-            name='rating',
+            model_name="supplierprofile",
+            name="rating",
             field=models.DecimalField(decimal_places=2, default=0.0, max_digits=3),
         ),
         migrations.AddField(
-            model_name='supplierprofile',
-            name='verified',
+            model_name="supplierprofile",
+            name="verified",
             field=models.BooleanField(default=False),
         ),
         migrations.AlterField(
-            model_name='supplierprofile',
-            name='user',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='supplier_profile', to=settings.AUTH_USER_MODEL),
+            model_name="supplierprofile",
+            name="user",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="supplier_profile",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

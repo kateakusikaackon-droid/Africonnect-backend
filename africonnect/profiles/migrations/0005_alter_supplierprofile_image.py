@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('profiles', '0004_supplierprofile_address_supplierprofile_is_public_and_more'),
+        ("profiles", "0004_supplierprofile_address_supplierprofile_is_public_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='supplierprofile',
-            name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='profiles/suppliers/'),
+            model_name="supplierprofile",
+            name="image",
+            field=models.ImageField(
+                blank=True, null=True, upload_to="profiles/suppliers/"
+            ),
         ),
     ]

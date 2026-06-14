@@ -1,9 +1,6 @@
 from .permissions import IsSupplier, IsBuyer
 
-from rest_framework.permissions import (
-    IsAuthenticated,
-    AllowAny
-)
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.generics import GenericAPIView
 from common.swagger import SwaggerSafeMixin
 from .serializers import HealthCheckSerializer
@@ -23,7 +20,7 @@ from .serializers import (
     CustomTokenSerializer,
     LogoutSerializer,
     SupplierDashboardSerializer,
-    BuyerDashboardSerializer
+    BuyerDashboardSerializer,
 )
 
 from profiles.models import SupplierProfile
@@ -37,7 +34,7 @@ from common.serializers import CategorySerializer
 @extend_schema(
     request=UserRegisterSerializer,
     responses={201: UserRegisterSerializer},
-    description="User registration endpoint (supplier or buyer)"
+    description="User registration endpoint (supplier or buyer)",
 )
 class UserRegisterView(APIView):
 
@@ -49,10 +46,7 @@ class UserRegisterView(APIView):
     def post(self, request, *args, **kwargs):
 
         serializer = self.serializer_class(
-            data=request.data,
-            context={
-                "role": kwargs.get("role")  # supplier or buyer
-            }
+            data=request.data, context={"role": kwargs.get("role")}  # supplier or buyer
         )
 
         if serializer.is_valid():
@@ -67,14 +61,12 @@ class UserRegisterView(APIView):
                         "name": user.name,
                         "role": user.role,
                         "business_name": user.business_name,
-                    }
+                    },
                 },
-                status=status.HTTP_201_CREATED
+                status=status.HTTP_201_CREATED,
             )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 
 class LoginView(TokenObtainPairView):
@@ -84,7 +76,7 @@ class LoginView(TokenObtainPairView):
     @extend_schema(
         request=CustomTokenSerializer,
         responses={200: OpenApiResponse(description="JWT tokens returned")},
-        description="Login and return JWT tokens for supplier or buyer"
+        description="Login and return JWT tokens for supplier or buyer",
     )
     def post(self, request, *args, **kwargs):
 
@@ -94,6 +86,7 @@ class LoginView(TokenObtainPairView):
         if response.status_code == 200:
 
             from django.contrib.auth import get_user_model
+
             User = get_user_model()
 
             user = User.objects.get(email=request.data.get("email"))
@@ -102,12 +95,10 @@ class LoginView(TokenObtainPairView):
                 "id": user.id,
                 "email": user.email,
                 "role": user.role,
-                "name": user.name
+                "name": user.name,
             }
 
         return response
-
-
 
 
 class LogoutView(APIView):
@@ -128,39 +119,27 @@ class LogoutView(APIView):
                 token.blacklist()
 
                 return Response(
-                    {"detail": "Logout successful"},
-                    status=status.HTTP_200_OK
+                    {"detail": "Logout successful"}, status=status.HTTP_200_OK
                 )
 
             except Exception:
                 return Response(
-                    {"detail": "Invalid token"},
-                    status=status.HTTP_400_BAD_REQUEST
+                    {"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST
                 )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
-class SupplierDashboardView(
-    SwaggerSafeMixin,
-    APIView
-):
+class SupplierDashboardView(SwaggerSafeMixin, APIView):
     """
     Here "supplier" is simply the current
     SupplierProfile object belonging to
     the logged-in supplier user.
     """
 
-    permission_classes = [
-        IsAuthenticated,
-        IsSupplier
-    ]
+    permission_classes = [IsAuthenticated, IsSupplier]
 
-    serializer_class = (
-        SupplierDashboardSerializer
-    )
+    serializer_class = SupplierDashboardSerializer
 
     def get(self, request):
 
@@ -171,13 +150,8 @@ class SupplierDashboardView(
         if self.is_swagger():
 
             return Response(
-                {
-                    "message": (
-                        "Swagger schema generation"
-                    ),
-                    "data": {}
-                },
-                status=status.HTTP_200_OK
+                {"message": ("Swagger schema generation"), "data": {}},
+                status=status.HTTP_200_OK,
             )
 
         # =====================================
@@ -189,12 +163,8 @@ class SupplierDashboardView(
         if not supplier:
 
             return Response(
-                {
-                    "detail": (
-                        "Supplier profile not found"
-                    )
-                },
-                status=status.HTTP_404_NOT_FOUND
+                {"detail": ("Supplier profile not found")},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         # =====================================
@@ -206,13 +176,10 @@ class SupplierDashboardView(
         categories_qs = ProductCategory.objects.filter(
             products__supplier=supplier
         ).distinct()
-        
+
         category_data = CategorySerializer(categories_qs, many=True).data
-        
-        return Response({
-            "categories": category_data
-        })        
-        
+
+        return Response({"categories": category_data})
 
         # =====================================
         # VERIFICATION PROGRESS
@@ -234,42 +201,22 @@ class SupplierDashboardView(
         # =====================================
 
         data = {
-            "business_name": (
-                supplier.business_name
-            ),
+            "business_name": (supplier.business_name),
             "verified": supplier.verified,
-            "completion_rate": (
-                supplier.completion_rate
-            ),
+            "completion_rate": (supplier.completion_rate),
             "rating": supplier.rating,
-            "products_count": (
-                products.count()
-            ),
-            "categories_count": (
-                categories.count()
-            ),
-            "verification_steps_completed": (
-                verification_steps_completed
-            ),
+            "products_count": (products.count()),
+            "categories_count": (categories.count()),
+            "verification_steps_completed": (verification_steps_completed),
             "verification_total_steps": 3,
         }
 
-        serializer = self.serializer_class(
-            instance=data
-        )
+        serializer = self.serializer_class(instance=data)
 
         return Response(
-            {
-                "message": (
-                    "Dashboard loaded successfully"
-                ),
-                "data": serializer.data
-            },
-            status=status.HTTP_200_OK
+            {"message": ("Dashboard loaded successfully"), "data": serializer.data},
+            status=status.HTTP_200_OK,
         )
-
-
-
 
 
 class BuyerDashboardView(APIView):
@@ -281,44 +228,19 @@ class BuyerDashboardView(APIView):
     @extend_schema(responses=BuyerDashboardSerializer)
     def get(self, request):
 
-        data = {
-            "message": "Welcome Buyer"}
+        data = {"message": "Welcome Buyer"}
 
-        serializer = self.serializer_class(
-            instance=data
-        )
+        serializer = self.serializer_class(instance=data)
 
         return Response(
-            {
-                "message": (
-                    "Dashboard loaded successfully"
-                ),
-                "data": serializer.data
-            },
-            status=status.HTTP_200_OK
+            {"message": ("Dashboard loaded successfully"), "data": serializer.data},
+            status=status.HTTP_200_OK,
         )
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class HealthCheckView(GenericAPIView):
     permission_classes = [AllowAny]
     serializer_class = HealthCheckSerializer
+
     def get(self, request):
-        return Response({
-            "status": "ok",
-            "message": "API is running"
-        })
-
-
-
+        return Response({"status": "ok", "message": "API is running"})

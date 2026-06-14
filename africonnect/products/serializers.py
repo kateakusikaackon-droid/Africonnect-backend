@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import Product, ProductCategory
-
-
+from common.serializers import FileOnlyImageField
 
 
 class ProductCategorySerializer(serializers.ModelSerializer):
@@ -18,16 +17,17 @@ class ProductCategorySerializer(serializers.ModelSerializer):
 # PRODUCT LIST SERIALIZER
 # =====================================
 
+
 class ProductSerializer(serializers.ModelSerializer):
 
     category = ProductCategorySerializer(read_only=True)
 
     category_id = serializers.PrimaryKeyRelatedField(
-        queryset=ProductCategory.objects.all(),
-        source="category",
-        write_only=True
+        queryset=ProductCategory.objects.all(), source="category", write_only=True
     )
-    
+
+    image = FileOnlyImageField(required=False, allow_null=True)
+
     class Meta:
         model = Product
         fields = [
@@ -48,20 +48,20 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "category_id", "created_at", "updated_at"]
 
 
-
 # =====================================
 # PRODUCT DETAIL SERIALIZER
 # =====================================
+
 
 class ProductDetailSerializer(serializers.ModelSerializer):
 
     category = ProductCategorySerializer(read_only=True)
 
     category_id = serializers.PrimaryKeyRelatedField(
-        queryset=ProductCategory.objects.all(),
-        source="category",
-        write_only=True
+        queryset=ProductCategory.objects.all(), source="category", write_only=True
     )
+
+    image = FileOnlyImageField(required=False, allow_null=True)
 
     class Meta:
         model = Product
@@ -84,5 +84,3 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         ]
 
         read_only_fields = ["id", "created_at", "updated_at"]
-
-        

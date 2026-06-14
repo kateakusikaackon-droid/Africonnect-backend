@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('products', '0004_productcategory_alter_product_id_product_category'),
+        ("products", "0004_productcategory_alter_product_id_product_category"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='is_public',
+            model_name="product",
+            name="is_public",
             field=models.BooleanField(default=True),
         ),
         migrations.AddField(
-            model_name='product',
-            name='updated_at',
+            model_name="product",
+            name="updated_at",
             field=models.DateTimeField(auto_now=True),
         ),
         migrations.AlterField(
-            model_name='productcategory',
-            name='name',
+            model_name="productcategory",
+            name="name",
             field=models.CharField(max_length=100, unique=True),
         ),
     ]
