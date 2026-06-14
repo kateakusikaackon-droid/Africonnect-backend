@@ -1,0 +1,53 @@
+2026-06-14T19:20:11.187224656Z     ~~~~~~~~~~~^^
+2026-06-14T19:20:11.187226666Z   File "/opt/render/project/src/.venv/lib/python3.14/site-packages/gunicorn/app/base.py", line 71, in run
+2026-06-14T19:20:11.187228576Z     Arbiter(self).run()
+2026-06-14T19:20:11.187230486Z     ~~~~~~~^^^^^^
+2026-06-14T19:20:11.187232456Z   File "/opt/render/project/src/.venv/lib/python3.14/site-packages/gunicorn/arbiter.py", line 63, in __init__
+2026-06-14T19:20:11.187234366Z     self.setup(app)
+2026-06-14T19:20:11.187236326Z     ~~~~~~~~~~^^^^^
+2026-06-14T19:20:11.187238966Z   File "/opt/render/project/src/.venv/lib/python3.14/site-packages/gunicorn/arbiter.py", line 139, in setup
+2026-06-14T19:20:11.187242346Z     self.app.wsgi()
+2026-06-14T19:20:11.187245836Z     ~~~~~~~~~~~~~^^
+2026-06-14T19:20:11.187249536Z   File "/opt/render/project/src/.venv/lib/python3.14/site-packages/gunicorn/app/base.py", line 66, in wsgi
+2026-06-14T19:20:11.187253647Z     self.callable = self.load()
+2026-06-14T19:20:11.187256676Z                     ~~~~~~~~~^^
+2026-06-14T19:20:11.187259847Z   File "/opt/render/project/src/.venv/lib/python3.14/site-packages/gunicorn/app/wsgiapp.py", line 57, in load
+2026-06-14T19:20:11.187263007Z     return self.load_wsgiapp()
+2026-06-14T19:20:11.187265837Z            ~~~~~~~~~~~~~~~~~^^
+2026-06-14T19:20:11.187269317Z   File "/opt/render/project/src/.venv/lib/python3.14/site-packages/gunicorn/app/wsgiapp.py", line 47, in load_wsgiapp
+2026-06-14T19:20:11.187273577Z     return util.import_app(self.app_uri)
+2026-06-14T19:20:11.187276697Z            ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2026-06-14T19:20:11.187279687Z   File "/opt/render/project/src/.venv/lib/python3.14/site-packages/gunicorn/util.py", line 411, in import_app
+2026-06-14T19:20:11.187282627Z     mod = importlib.import_module(module)
+2026-06-14T19:20:11.187285727Z   File "/opt/render/project/python/Python-3.14.3/lib/python3.14/importlib/__init__.py", line 88, in import_module
+2026-06-14T19:20:11.187289437Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-06-14T19:20:11.187292488Z            ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-14T19:20:11.187295568Z   File "<frozen importlib._bootstrap>", line 1398, in _gcd_import
+2026-06-14T19:20:11.187298677Z   File "<frozen importlib._bootstrap>", line 1371, in _find_and_load
+2026-06-14T19:20:11.187308788Z   File "<frozen importlib._bootstrap>", line 1342, in _find_and_load_unlocked
+2026-06-14T19:20:11.187311018Z   File "<frozen importlib._bootstrap>", line 938, in _load_unlocked
+2026-06-14T19:20:11.187313068Z   File "<frozen importlib._bootstrap_external>", line 759, in exec_module
+2026-06-14T19:20:11.187315088Z   File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+2026-06-14T19:20:11.187318048Z   File "/opt/render/project/src/africonnect/config/wsgi.py", line 16, in <module>
+2026-06-14T19:20:11.187331038Z     application = get_wsgi_application()
+2026-06-14T19:20:11.187336538Z   File "/opt/render/project/src/.venv/lib/python3.14/site-packages/django/core/wsgi.py", line 12, in get_wsgi_application
+2026-06-14T19:20:11.187338569Z     django.setup(set_prefix=False)
+2026-06-14T19:20:11.187341349Z     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+2026-06-14T19:20:11.187343309Z   File "/opt/render/project/src/.venv/lib/python3.14/site-packages/django/__init__.py", line 24, in setup
+2026-06-14T19:20:11.187345399Z     apps.populate(settings.INSTALLED_APPS)
+2026-06-14T19:20:11.187347339Z     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-14T19:20:11.187349319Z   File "/opt/render/project/src/.venv/lib/python3.14/site-packages/django/apps/registry.py", line 91, in populate
+2026-06-14T19:20:11.187351349Z     app_config = AppConfig.create(entry)
+2026-06-14T19:20:11.187353349Z   File "/opt/render/project/src/.venv/lib/python3.14/site-packages/django/apps/config.py", line 193, in create
+2026-06-14T19:20:11.187355279Z     import_module(entry)
+2026-06-14T19:20:11.187357189Z     ~~~~~~~~~~~~~^^^^^^^
+2026-06-14T19:20:11.187359189Z   File "/opt/render/project/python/Python-3.14.3/lib/python3.14/importlib/__init__.py", line 88, in import_module
+2026-06-14T19:20:11.187361219Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-06-14T19:20:11.187363169Z            ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-14T19:20:11.187366099Z   File "<frozen importlib._bootstrap>", line 1398, in _gcd_import
+2026-06-14T19:20:11.187369449Z   File "<frozen importlib._bootstrap>", line 1371, in _find_and_load
+2026-06-14T19:20:11.187372819Z   File "<frozen importlib._bootstrap>", line 1335, in _find_and_load_unlocked
+2026-06-14T19:20:11.187375879Z ModuleNotFoundError: No module named 'storages'
+2026-06-14T19:20:19.284717723Z ==> Exited with status 1
+2026-06-14T19:20:19.302244831Z ==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
+2026-06-14T19:20:18.891233543Z ==> Running 'cd africonnect && gunicorn config.wsgi:application'
